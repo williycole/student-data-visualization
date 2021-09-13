@@ -1,12 +1,15 @@
-import StudentDataTest from "./StudentDataTest";
-
+// import StudentDataQuery from "./StudentDataQuery";
+import QueryTest from "./QueryTest";
+import Header from "./Header";
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <Header />
+      <main className="App-header">
         <h1>Hello World</h1>
-        <StudentDataTest />
-      </header>
+        {/* <StudentDataQuery /> */}
+        <QueryTest />
+      </main>
     </div>
   );
 }
