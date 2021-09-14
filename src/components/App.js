@@ -1,14 +1,10 @@
-// import StudentDataQuery from "./StudentDataQuery";
-import QueryTest from "./QueryTest";
-import Header from "./Header";
+// import Header from "./nav/Header";
+import GraphParams from "./GraphParams";
 function App() {
   return (
     <div className="App">
-      <Header />
       <main className="App-header">
-        <h1>Hello World</h1>
-        {/* <StudentDataQuery /> */}
-        <QueryTest />
+        <GraphParams />
       </main>
     </div>
   );

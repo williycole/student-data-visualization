@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
-import NavSelection from "./QuerySelection";
+import GraphParams from "../GraphParams";
 
 function MobileNav() {
   const [showMenu, setShowMenu] = useState(false);
@@ -17,7 +17,7 @@ function MobileNav() {
               className="fixed"
             />
           </div>
-          <NavSelection />
+          <GraphParams />
         </nav>
       </div>
     );
