@@ -1,5 +1,7 @@
-// import Header from "./nav/Header";
+/*eslint-disable*/
+import React, { useContext, useState, useEffect, createContext } from "react";
 import GraphParams from "./GraphParams";
+
 function App() {
   return (
     <div className="App">
