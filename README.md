@@ -1,4 +1,4 @@
-# Fullstack project focused on data vizualization. This project use React, MongoDB Atlas, and MongoDB Realm for a BaaS and Hosting
+# Fullstack project focused on data vizualization. This project use React, Tailwind, ReCharts, MongoDB Atlas, and MongoDB Realm for a BaaS and Hosting.
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
