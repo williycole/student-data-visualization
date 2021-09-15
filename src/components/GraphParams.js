@@ -17,15 +17,17 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+
 const GraphParams = () => {
   const STUDENTDATA = [
-    "Internet Access",
-    "Past Failures",
+    "Select Graph",
     "Study Time",
+    "Past Failures",
     "Number of Absences",
+    "Internet Access",
     "Overall Student Health",
   ];
-  const [studentData, setStudentData] = useState("Internet Access");
+  const [studentData, setStudentData] = useState("");
   const [noIAVGHook, setnoIAVGHook] = useState("");
   const [iAVGHook, setIAVGHook] = useState("");
   const [failZeroHook, setFailZeroHook] = useState("");
@@ -36,6 +38,12 @@ const GraphParams = () => {
   const [styTwoToFiveHook, setStyTwoToFiveHook] = useState("");
   const [styFiveToTenHook, setStyFiveToTenHook] = useState("");
   const [styMoreThanTenHook, setStyMoreThanTenHook] = useState("");
+  const [abZeroToTwentyHook, setAbZeroToTwentyHook] = useState("");
+  const [abTwentyToFourtyHook, setAbTwentyToFourtyHook] = useState("");
+  const [abFourtyToSixtyHook, setAbFourtyToSixtyHook] = useState("");
+  const [abSixtyToEightyHook, setAbSixtyToEightyHook] = useState("");
+  const [abEightyToNightyThreeHook, setAbEightyToNightyThreeHook] =
+    useState("");
 
   async function fetchStudentData() {
     const res = await fetch(
@@ -49,20 +57,22 @@ const GraphParams = () => {
     let intAccArr = [];
     studentData.filter((item) => {
       if (item.internet === "yes") {
-        intAccArr.push(parseInt(item.G3));
+        intAccArr.push(Number.parseInt(item.G3));
       }
     });
-    const intAccAvergage =
-      intAccArr.reduce((a, b) => a + b, 0) / intAccArr.length;
+    const intAccAvergage = Math.floor(
+      intAccArr.reduce((a, b) => a + b, 0) / intAccArr.length
+    );
     //----------NO Internet Access GPA-------------
     let noIntAccArr = [];
     studentData.filter((item) => {
       if (item.internet === "no") {
-        noIntAccArr.push(parseInt(item.G3));
+        noIntAccArr.push(Number.parseInt(item.G3));
       }
     });
-    const noIntAverage =
-      noIntAccArr.reduce((a, b) => a + b, 0) / noIntAccArr.length;
+    const noIntAverage = Math.floor(
+      noIntAccArr.reduce((a, b) => a + b, 0) / noIntAccArr.length
+    );
     //----------Num Past Failures-------------
     let failArr = [[], [], [], []];
     studentData.filter((item) => {
@@ -116,6 +126,40 @@ const GraphParams = () => {
       studyTimeArr[3].reduce((a, b) => a + b, 0) / studyTimeArr[3].length
     );
     // console.log(studyOneAvg, studyTwoAvg, studyThreeAvg, studyFourAvg);
+    //----------Absences-------------
+    let absArr = [[], [], [], [], []];
+    studentData.forEach((item) => {
+      if (item.absences) {
+        Number.parseInt(item.absences);
+        if (item.absences > 0 && item.absences <= 20) {
+          absArr[0].push(Number.parseInt(item.G3));
+        } else if (item.absences > 20 && item.absences <= 40) {
+          absArr[1].push(Number.parseInt(item.G3));
+        } else if (item.absences > 40 && item.absences <= 60) {
+          absArr[2].push(Number.parseInt(item.G3));
+        } else if (item.absences > 60 && item.absences <= 80) {
+          absArr[3].push(Number.parseInt(item.G3));
+        } else if (item.absences > 80 && item.absences <= 93) {
+          absArr[4].push(Number.parseInt(item.G3));
+        }
+      }
+    });
+    // console.log(absArr);
+    const absZeroToTwentyAvg = Number.parseInt(
+      absArr[0].reduce((a, b) => a + b, 0) / absArr[0].length
+    );
+    const absTwentyToFourtyAvg = Number.parseInt(
+      absArr[1].reduce((a, b) => a + b, 0) / absArr[1].length
+    );
+    const absFourtyToSixtyAvg = Number.parseInt(
+      absArr[2].reduce((a, b) => a + b, 0) / absArr[2].length
+    );
+    const absSixtyToEightyAvg = Number.parseInt(
+      absArr[3].reduce((a, b) => a + b, 0) / absArr[3].length
+    );
+    const absEightyToNintyThree = Number.parseInt(
+      absArr[4].reduce((a, b) => a + b, 0) / absArr[4].length
+    );
 
     setIAVGHook((intAccAvergage / 20) * 100);
     setnoIAVGHook((noIntAverage / 20) * 100);
@@ -127,15 +171,16 @@ const GraphParams = () => {
     setStyTwoToFiveHook((studyTwoAvg / 20) * 100);
     setStyFiveToTenHook((studyThreeAvg / 20) * 100);
     setStyMoreThanTenHook((studyFourAvg / 20) * 100);
+    setAbZeroToTwentyHook(absZeroToTwentyAvg / 20);
+    setAbTwentyToFourtyHook((absTwentyToFourtyAvg / 20) * 100);
+    setAbFourtyToSixtyHook((absFourtyToSixtyAvg / 20) * 100);
+    setAbSixtyToEightyHook((absSixtyToEightyAvg / 20) * 100);
+    setAbEightyToNightyThreeHook((absEightyToNintyThree / 20) * 100);
   }
 
   const internetData = [
-    {
-      name: "Internet vs No Internet GPA",
-      uv: iAVGHook,
-      pv: noIAVGHook,
-      amt: 100,
-    },
+    { name: "Group A", value: iAVGHook },
+    { name: "Group B", value: noIAVGHook },
   ];
 
   const failData = [
@@ -152,6 +197,14 @@ const GraphParams = () => {
     { x: 4, y: styMoreThanTenHook },
   ];
 
+  const absecenceData = [
+    { x: 10, y: abZeroToTwentyHook, z: 180 },
+    { x: 40, y: abTwentyToFourtyHook, z: 400 },
+    { x: 60, y: abFourtyToSixtyHook, z: 280 },
+    { x: 80, y: abSixtyToEightyHook, z: 500 },
+    { x: 100, y: abEightyToNightyThreeHook, z: 200 },
+  ];
+
   useEffect(() => {
     fetchStudentData();
   }, []);
@@ -159,35 +212,50 @@ const GraphParams = () => {
   let GRAPH;
   if (studentData === "Internet Access") {
     GRAPH = (
-      <div>
-        <ResponsiveContainer width="100%" aspect={3}>
-          <BarChart
-            width={500}
-            height={300}
-            data={internetData}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" /> <YAxis /> <Tooltip /> <Legend />
-            <Bar dataKey="pv" fill="#8884d8" />
-            <Bar dataKey="uv" fill="#82ca9d" />
-          </BarChart>
-        </ResponsiveContainer>
+      <div className="flex-col justify-center items-center ">
+        <div
+          style={{ width: 400, height: 400 }}
+          className="flex-col justify-center items-center"
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart width={400} height={400}>
+              <Pie
+                dataKey="value"
+                startAngle={180}
+                endAngle={0}
+                data={internetData}
+                cx="50%"
+                cy="50%"
+                outerRadius={80}
+                fill="#8884d8"
+                label
+                tick={{ fill: "white" }}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+        <p>Avg Grade for</p>
+        <p>Internet VS No Internet</p>
       </div>
     );
   } else if (studentData === "Past Failures") {
     GRAPH = (
-      <div style={{ width: "100%", height: 300 }}>
-        <ResponsiveContainer>
-          <PieChart>
-            <Pie dataKey="value" data={failData} fill="#8884d8" label />
-          </PieChart>
-        </ResponsiveContainer>
+      <div>
+        <div style={{ width: 400, height: 400 }}>
+          <ResponsiveContainer>
+            <PieChart>
+              <Pie
+                dataKey="value"
+                data={failData}
+                fill="#8884d8"
+                label
+                tick={{ fill: "white" }}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+        <p>Avg Grade for</p>
+        <p>Amount of Past Failures</p>
       </div>
     );
   } else if (studentData === "Study Time") {
@@ -196,15 +264,28 @@ const GraphParams = () => {
         width={500}
         height={400}
         margin={{
-          top: 20,
+          top: 80,
           right: 20,
-          bottom: 20,
+          bottom: 0,
           left: 20,
         }}
       >
         <CartesianGrid />
-        <XAxis type="number" dataKey="x" name="stature" unit="Avg Study hrs" />
-        <YAxis type="number" dataKey="y" name="weight" unit="Avg Grade" />
+        <XAxis
+          type="number"
+          dataKey="x"
+          name="stature"
+          unit="Avg Study hrs"
+          tick={{ fill: "white" }}
+          stroke="#efefef"
+        />
+        <YAxis
+          type="number"
+          dataKey="y"
+          name="weight"
+          unit="Avg Grade"
+          tick={{ fill: "white" }}
+        />
         <ZAxis type="number" range={[100]} />
         <Tooltip cursor={{ strokeDasharray: "3 3" }} />
         <Legend />
@@ -218,44 +299,76 @@ const GraphParams = () => {
       </ScatterChart>
     );
   } else if (studentData === "Number of Absences") {
-    GRAPH = <h1>Number of Absences</h1>;
+    GRAPH = (
+      <ResponsiveContainer width="80%" aspect={3}>
+        <ScatterChart
+          width={400}
+          height={400}
+          margin={{
+            top: 80,
+            right: 40,
+            bottom: 40,
+            left: 40,
+          }}
+        >
+          <CartesianGrid />
+          <XAxis
+            type="number"
+            dataKey="x"
+            name="Absences"
+            unit="Absences"
+            tick={{ fill: "white" }}
+          />
+          <YAxis
+            type="number"
+            dataKey="y"
+            name=" Avg "
+            unit=" Grade Avg"
+            tick={{ fill: "white" }}
+          />
+          <Tooltip cursor={{ strokeDasharray: "3 3" }} />
+          <Scatter name="A school" data={absecenceData} fill="#8884d8" />
+        </ScatterChart>
+      </ResponsiveContainer>
+    );
   } else if (studentData === "Overall Student Health") {
     GRAPH = <h1>Overall Student Health</h1>;
   } else {
-    <h1>Select Graph</h1>;
+    GRAPH = <h1>Select Graph</h1>;
   }
 
   return (
-    <div className="flex flex-col w-full text-center">
-      <div>
-        <form
-          className="flex flex-row justify-center text-center p-1"
-          onSubmit={(e) => {
-            e.preventDefault();
-            fetchStudentData();
-          }}
-        >
-          <label htmlFor="data" className="p-1 m-1">
-            Select Data to Display
-            <select
-              name="data"
-              className="text-center bg-red-200 p-1"
-              id="studentData"
-              value={studentData}
-              onChange={(e) => setStudentData(e.target.value)}
-              onBlur={(e) => setStudentData(e.target.value)}
-            >
-              {STUDENTDATA.map((studentData) => (
-                <option value={studentData} key={studentData}>
-                  {studentData}
-                </option>
-              ))}
-            </select>
-          </label>
-          {/* <button>Submit</button> */}
-        </form>
-      </div>
+    <div className="flex flex-col w-full text-center h-screen">
       <div className="flex flex-col items-center justify-center">{GRAPH}</div>
+
+      <form
+        className="flex justify-center items-end text-center p-1 w-full h-screen bg-purple-900"
+        onSubmit={(e) => {
+          e.preventDefault();
+          fetchStudentData();
+        }}
+      >
+        <label
+          htmlFor="data"
+          className="flex flex-row justify-center items-center p-6 m-6 w-full "
+        >
+          Select Data to Display
+          <select
+            name="data"
+            className="text-center p-6 m-6 bg-purple-600"
+            id="studentData"
+            value={studentData}
+            onChange={(e) => setStudentData(e.target.value)}
+            onBlur={(e) => setStudentData(e.target.value)}
+          >
+            {STUDENTDATA.map((studentData) => (
+              <option value={studentData} key={studentData}>
+                {studentData}
+              </option>
+            ))}
+          </select>
+        </label>
+      </form>
     </div>
   );
 };
