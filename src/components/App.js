@@ -1,12 +1,12 @@
 /*eslint-disable*/
 import React, { useContext, useState, useEffect, createContext } from "react";
-import GraphParams from "./GraphParams";
+import GraphSetOne from "./GraphSetOne";
 
 function App() {
   return (
-    <div className="App" className="bg-purple-900">
-      <main className="App-header" className="bg-purple-900 h-full">
-        <GraphParams />
+    <div className="App" className="bg-primary">
+      <main className="App-header" className="bg-primary h-full">
+        <GraphSetOne />
       </main>
     </div>
   );
