@@ -1,11 +1,10 @@
 /*eslint-disable*/
-import { useEffect, useState } from "react";
-import React, { PureComponent } from "react";
+import React, { PureComponent, useEffect, useState } from "react";
 // prettier-ignore
 import {
-  LineChart, Line, Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis,ScatterChart, Scatter, PieChart, Pie, Cell, ZAxis, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
+  BarChart, Bar, LineChart, Line,ScatterChart, Scatter, PieChart, Pie, Cell, ZAxis, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from "recharts";
-import GraphSetTwo from "./GraphSetTwo";
+// import BonusGraph from "./BonusGraph";
 const GraphParams = () => {
   // prettier-ignore
   const STUDENTDATA = [
@@ -29,16 +28,11 @@ const GraphParams = () => {
   const [abSixtyToEightyHook, setAbSixtyToEightyHook] = useState("");
   // prettier-ignore
   const [abEightyToNightyThreeHook, setAbEightyToNightyThreeHook] = useState("");
-  const [veryBadHealthGPAHook, setVeryBadHealthHook] = useState("");
-  const [badHealthGPAHook, setBadHealthHook] = useState("");
-  const [avgHealthGPAHook, setAvgHealthHook] = useState("");
-  const [goodHealthGpaHook, setGoodHealthHook] = useState("");
-  const [verGoodHealthGPAHook, setVeryGoodHealthHook] = useState("");
-
   const [travTimeOneGPAHook, setTravTimeOneGPAHook] = useState("");
   const [travTimeTwoGPAHook, setTravTimeTwoGPAHook] = useState("");
   const [travTimeThreeGPAHook, setTravTimeThreeGPAHook] = useState("");
   const [travTimeFourGPAHook, setTravTimeFourGPAHook] = useState("");
+  // Set Hooks for Overall Health
   async function fetchStudentData() {
     const res = await fetch(
       "https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/student-data-jwxco/service/studentdata/incoming_webhook/studentdata"
@@ -135,52 +129,88 @@ const GraphParams = () => {
     // 4 - >1 hour
     let travelTimeArr = [[], [], [], []];
     studentData.forEach((item) => {
+      // TODO Fix Travel Time Array
       if (item.traveltime) {
-        // Number.parseInt(item.time);
-        if (item.traveltime === " 1") {
-          Number.parseInt(travelTimeArr.push[0](item.G3));
+        if (item.traveltime === "1") {
+          Number.parseInt(travelTimeArr[0].push(item.G3));
         } else if (item.traveltime === "2") {
           Number.parseInt(travelTimeArr[1].push(item.G3));
         } else if (item.traveltime === "3") {
           Number.parseInt(travelTimeArr[2].push(item.G3));
-        } else if (item.traveltime === " 4") {
+        } else if (item.traveltime === "4") {
           Number.parseInt(travelTimeArr[3].push(item.G3));
         }
       }
     });
-    // console.log(absArr);
-    const travTimeOneGPA = Number.parseInt( travelTimeArr[0].reduce((a, b) => a + b, 0) / travelTimeArr[0].length ); // prettier-ignore
-    const travTimeTwoGPA = Number.parseInt( travelTimeArr[1].reduce((a, b) => a + b, 0) / travelTimeArr[1].length ); // prettier-ignore
-    const travTimeThreeGPA = Number.parseInt( travelTimeArr[2].reduce((a, b) => a + b, 0) / travelTimeArr[2].length); // prettier-ignore
+    console.log(travelTimeArr);
+    const travTimeOneGPA = Number.parseInt(travelTimeArr[0].reduce((a, b) => a + b, 0) / travelTimeArr[0].length ); // prettier-ignore
+    const travTimeTwoGPA = Number.parseInt(travelTimeArr[1].reduce((a, b) => a + b, 0) / travelTimeArr[1].length ); // prettier-ignore
+    const travTimeThreeGPA = Number.parseInt(travelTimeArr[2].reduce((a, b) => a + b, 0) / travelTimeArr[2].length); // prettier-ignore
     const travTimeFourGPA = Number.parseInt(travelTimeArr[3].reduce((a, b) => a + b, 0) / travelTimeArr[3].length); // prettier-ignore
+    console.log(
+      travTimeOneGPA,
+      travTimeTwoGPA,
+      travTimeThreeGPA,
+      travTimeFourGPA
+    );
     //----------Overall Health-------------
-    // health, famrel, goout, activities, famsup schoolsup, failures, Dalc, Wal
+    // health, famrel, famsup schoolsup, Dalc, Wal
     // goodHealthArr = [[],[],[],[]] -->
     // badHealthArr = [[],[],[],[]] -->
-    // currentHealthArr = [[],[],[],[]]
-    let healthArr = [[], [], [], [], []];
+    const GoodHealthGpaArr = [[], [], [], [], [], []];
+    const BadHealthGpaArr = [[], [], [], [], [], []];
     studentData.forEach((item) => {
+      // Check to see if Dal is excessive and push accordingly
+      if (item.Dalc) {
+        if (item.Dalc === "5" || item.Dalc === "4") {
+          BadHealthGpaArr[0].push(Number.parseInt(item.G3));
+        } else {
+          GoodHealthGpaArr[0].push(Number.parseInt(item.G3));
+        }
+      }
+      // Check to see if Wal is excessive and push accordingly
+      if (item.Walc) {
+        if (item.Walc === "5" || item.Walc === "4") {
+          BadHealthGpaArr[1].push(Number.parseInt(item.G3));
+        } else {
+          GoodHealthGpaArr[1].push(Number.parseInt(item.G3));
+        }
+      }
+      // Check to see if famsup is yes or no and push accordingly
+      if (item.famsup) {
+        if (item.famsup === "yes") {
+          GoodHealthGpaArr[2].push(Number.parseInt(item.G3));
+        } else {
+          BadHealthGpaArr[2].push(Number.parseInt(item.G3));
+        }
+      }
+      // Check to see if schoolsup is yes or no and push accordingly
+      if (item.schoolsup) {
+        if (item.schoolsup === "yes") {
+          GoodHealthGpaArr[3].push(Number.parseInt(item.G3));
+        } else {
+          BadHealthGpaArr[3].push(Number.parseInt(item.G3));
+        }
+      }
+      // Check to see if famrel is very bad or bad and push accordingly
+      if (item.famrel) {
+        if (item.famrel === "1" || item.famrel === "2") {
+          BadHealthGpaArr[4].push(Number.parseInt(item.G3));
+        } else {
+          GoodHealthGpaArr[4].push(Number.parseInt(item.G3));
+        }
+      }
+      // Check to see if health is very bad or bad and push accordingly
       if (item.health) {
-        Number.parseInt(item.health);
-        if (item.health === "1") {
-          healthArr[0].push(Number.parseInt(item.G3));
-        } else if (item.health === "2") {
-          healthArr[1].push(Number.parseInt(item.G3));
-        } else if (item.health === "3") {
-          healthArr[2].push(Number.parseInt(item.G3));
-        } else if (item.health === "4") {
-          healthArr[3].push(Number.parseInt(item.G3));
-        } else if (item.health === "5") {
-          healthArr[4].push(Number.parseInt(item.G3));
+        if (item.health == +"1" || item.health === "2") {
+          BadHealthGpaArr[5].push(Number.parseInt(item.G3));
+        } else {
+          GoodHealthGpaArr[5].push(Number.parseInt(item.G3));
         }
       }
     });
-    // console.log(absArr);
-    const veryBadHealthGPA = Number.parseInt( healthArr[0].reduce((a, b) => a + b, 0) / healthArr[0].length ); // prettier-ignore
-    const badHealthGPA = Number.parseInt( healthArr[1].reduce((a, b) => a + b, 0) / healthArr[1].length ); // prettier-ignore
-    const avgHealthGPA = Number.parseInt( healthArr[2].reduce((a, b) => a + b, 0) / healthArr[2].length); // prettier-ignore
-    const goodHealthGPA = Number.parseInt(healthArr[3].reduce((a, b) => a + b, 0) / healthArr[3].length); // prettier-ignore
-    const veryGoodHealthGPA = Number.parseInt(healthArr[4].reduce((a, b) => a + b, 0) / healthArr[4].length); // prettier-ignore
+    console.log(GoodHealthGpaArr, BadHealthGpaArr);
+
     //----------Travel Time-------------
     // prettier-ignore
     {setIAVGHook((intAccAvergage / 20) * 100), setnoIAVGHook((noIntAverage / 20) * 100);
@@ -195,9 +225,7 @@ const GraphParams = () => {
       setAbFourtyToSixtyHook((absFourtyToSixtyAvg / 20) * 100), setAbSixtyToEightyHook((absSixtyToEightyAvg / 20) * 100);
       setAbEightyToNightyThreeHook((absEightyToNintyThree / 20) * 100);
       // Overall Health Hooks
-      setVeryBadHealthHook((veryBadHealthGPA / 20) * 100),  setBadHealthHook((badHealthGPA / 20) * 100);
-      setAvgHealthHook((avgHealthGPA / 20) * 100), setGoodHealthHook((goodHealthGPA / 20) * 100);
-      setVeryGoodHealthHook((veryGoodHealthGPA / 20) * 100);
+      // Set Hooks for Overall Health
       // Travel Time Hooks
       setTravTimeOneGPAHook((travTimeOneGPA / 20) * 100);
       setTravTimeTwoGPAHook((travTimeTwoGPA / 20) * 100);
@@ -229,62 +257,64 @@ const GraphParams = () => {
       { x: 60, y: abFourtyToSixtyHook},{ x: 80, y: abSixtyToEightyHook},
       { x: 100, y: abEightyToNightyThreeHook}
     ];
+
+  // TODO:
+  // famrel, famsup schoolsup,
+  // Dalc, Wal, health
+  // TODO: remove when done adding colors with graph styles
+  /* color:  #2a204cff;
+  color: #44337aff;
+  color: #8884d8ff;
+  color: #a6a3e2ff;
+  color: #c4c2ecff;
+  color: #a3c6c5ff;
+  color: #82ca9dff; */
   // prettier-ignore
   const data = [
     {
       name: 'TT < 2 ',
-      uv: travTimeOneGPAHook,
-      // pv: 2400,
+      uv: 2400,
+      pv: travTimeOneGPAHook,
       amt: 0,
     },
     {
       name: 'Page B',
-      uv: travTimeTwoGPAHook,
-      // pv: 1398,
+      uv: 1398,
+      pv: travTimeTwoGPAHook,
       amt: 2210,
     },
     {
       name: 'Page C',
-      uv: travTimeThreeGPAHook,
-      // pv: 9800,
+      uv: 9800,
+      pv: travTimeThreeGPAHook,
       amt: 2290,
     },
     {
       name: 'Page D',
-      uv: travTimeFourGPAHook,
-      // pv: 3908,
+      uv: 3908,
+      pv: travTimeFourGPAHook,
       amt: 2000,
     },
   ];
 
-  // health,
-  // famrel, goout, activities, famsup schoolsup, failures, Dalc, Wal
-
   let GRAPH;
   if (studentData === "Internet Access") {
-    GRAPH = (
-      <div className="flex-col justify-center items-center ">
-        {/* prettier-ignore */}
-        <div style={{ width: 400, height: 400 }}className="flex-col justify-center items-center">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart width={400} height={400}>
-              <Pie dataKey="value" startAngle={180} endAngle={0} data={internetData}
-              cx="50%" cy="50%" outerRadius={80} fill="#8884d8" label tick={{ fill: "white" }}/>
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-        <p>Avg Grade for</p>
-        <p>Internet VS No Internet</p>
-      </div>
-    );
+    GRAPH =
+      // prettier-ignore
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart width={600} height={600}>
+          <Pie dataKey="value" startAngle={180} endAngle={0} data={internetData}
+          cx="50%" cy="50%" outerRadius={140} fill="#8884d8" label tick={{ fill: "white" }} stroke="#e0fbfc"/>
+        </PieChart>
+      </ResponsiveContainer>;
   } else if (studentData === "Past Failures") {
     GRAPH = (
       <div>
         {/* prettier-ignore */}
-        <div style={{ width: 400, height: 400 }}>
+        <div style={{ width: 380, height: 380 }}>
           <ResponsiveContainer>
             <PieChart>
-              <Pie dataKey="value" data={failData} fill="#8884d8" label tick={{ fill: "white" }}/>
+              <Pie dataKey="value" data={failData} fill="#8884d8" label tick={{ fill: "white" }} stroke="#e0fbfc"/>
             </PieChart>
           </ResponsiveContainer>
         </div>
@@ -295,10 +325,10 @@ const GraphParams = () => {
   } else if (studentData === "Study Time") {
     GRAPH =
       // prettier-ignore
-      <ScatterChart width={500} height={400} margin={{ top: 80, right: 20, bottom: 0, left: 20,}}>
-          <CartesianGrid />
-            <XAxis type="number" dataKey="x" name="stature" unit="Avg Study hrs" tick={{ fill: "white" }} stroke="#efefef" />
-            <YAxis type="number" dataKey="y" name="weight" unit="Avg Grade" tick={{ fill: "white" }} />
+      <ScatterChart width={380} height={400} margin={{ top: 80, right: 20, bottom: 0, left: 20,}} >
+          <CartesianGrid stroke="#2a204c"/>
+            <XAxis type="number" dataKey="x" name="stature" unit="Avg Study hrs" tick={{ fill: "#e0fbfc" }} stroke="#e0fbfc" />
+            <YAxis type="number" dataKey="y" name="weight" unit="Avg Grade" tick={{ fill: "#e0fbfc" }} stroke="#e0fbfc"/>
             <ZAxis type="number" range={[100]} />
           <Tooltip cursor={{ strokeDasharray: "3 3" }} />
           <Legend />
@@ -307,32 +337,9 @@ const GraphParams = () => {
   } else if (studentData === "Number of Absences") {
     GRAPH =
       // prettier-ignore
-      <ResponsiveContainer width="80%" aspect={3}>
-          <ScatterChart  width={400} height={400} margin={{ top: 80, right: 40, bottom: 40, left: 40,}} >
-            <CartesianGrid />
-              <XAxis type="number" dataKey="x" name="Absences" unit="Absences" tick={{ fill: "white" }} />
-              <YAxis type="number" dataKey="y" name=" Avg " unit=" Grade Avg" tick={{ fill: "white" }} />
-            <Tooltip cursor={{ strokeDasharray: "3 3" }} />
-            <Scatter name="A school" data={absecenceData} fill="#8884d8" />
-          </ScatterChart>
-        </ResponsiveContainer>;
-  } else if (studentData === "Overall Student Health") {
-    // TODO: remove when done adding colors with graph styles
-    /* color:  #2a204cff;
-  color: #44337aff;
-  color: #8884d8ff;
-  color: #a6a3e2ff;
-  color: #c4c2ecff;
-  color: #a3c6c5ff;
-  color: #82ca9dff; */
-    GRAPH =
-      <h1>Overall Health</h1>;
-    // prettier-ignore
-  } else if (studentData === "Travel Time") {
-    GRAPH = (
-      <ResponsiveContainer width="100%" aspect={3}>
-        <LineChart
-          width={300}
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart
+          width={500}
           height={300}
           data={data}
           margin={{
@@ -341,31 +348,42 @@ const GraphParams = () => {
             left: 20,
             bottom: 5,
           }}
+          barSize={20}
         >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
+          <XAxis dataKey="name" scale="point" padding={{ left: 10, right: 10 }} />
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line
-            type="monotone"
-            dataKey="pv"
-            stroke="#8884d8"
-            activeDot={{ r: 8 }}
-          />
+          <CartesianGrid strokeDasharray="3 3" />
+          <Bar dataKey="pv" fill="#8884d8" background={{ fill: '#eee' }} />
+        </BarChart>
+      </ResponsiveContainer>;
+  } else if (studentData === "Overall Student Health") {
+    GRAPH =
+      <h1>Overall Health</h1>;
+    // prettier-ignore
+  } else if (studentData === "Travel Time") {
+    GRAPH =
+      // prettier-ignore
+      <ResponsiveContainer width="80%" aspect={3}>
+        <LineChart width={300} height={300} data={data} margin={{top: 5, right: 30, left: 20,bottom: 5,}}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" /> <YAxis /> <Tooltip /><Legend />
+          <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }}/>
           <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
         </LineChart>
-      </ResponsiveContainer>
-    );
+      </ResponsiveContainer>;
   } else {
-    GRAPH = <h1>Select Graph</h1>;
+    GRAPH = <h1 className="">Select Graph</h1>;
   }
   return (
     <div className="flex flex-col w-full text-center h-screen">
-      <div className="flex flex-col items-center justify-center">{GRAPH}</div>
+      <div className="flex flex-col items-center justify-center h-5/6 w-screen">
+        {GRAPH}
+      </div>
 
       <form
-        className="flex justify-center items-end text-center p-1 w-full h-screen bg-primary"
+        className="flex justify-center items-end text-center p-1 w-full bg-primary"
         onSubmit={(e) => {
           e.preventDefault();
           fetchStudentData();
@@ -373,12 +391,12 @@ const GraphParams = () => {
       >
         <label
           htmlFor="data"
-          className="flex flex-row justify-center items-center p-6 m-6 w-full "
+          className="flex flex-row justify-center items-center p-2 m-2 w-full "
         >
           Select Data to Display
           <select
             name="data"
-            className="text-center p-6 m-6 bg-secondary"
+            className="text-center p-6 m-6 bg-secondary border-2 border-mainAccent  rounded-lg md:text-xl"
             id="studentData"
             value={studentData}
             onChange={(e) => setStudentData(e.target.value)}
