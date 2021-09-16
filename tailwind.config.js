@@ -9,6 +9,8 @@ module.exports = {
         white: "#fff",
         primary: "#44337a",
         secondary: "#805ad5",
+        mainAccent: "#a6a3e2",
+        secondaryAccent: "#644bfd",
       },
     },
   },
