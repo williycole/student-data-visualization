@@ -4,10 +4,10 @@ import GraphSetOne from "./GraphSetOne";
 
 function App() {
   return (
-    <div className="App" className="bg-primary">
+    <div className="App" className="bg-secondary">
       <main
         className="App-header"
-        className="bg-primary h-full overflow-hidden"
+        className="bg-secondary h-full overflow-hidden "
       >
         <GraphSetOne />
       </main>

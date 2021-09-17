@@ -3,14 +3,20 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      animation: {
+        "bounce-slow": "bounce 2s infinite",
+      },
       colors: {
         transparent: "transparent",
         black: "#000",
         white: "#fff",
-        primary: "#44337a",
-        secondary: "#805ad5",
-        mainAccent: "#a6a3e2",
-        secondaryAccent: "#644bfd",
+        primary: "#13132C",
+        secondary: "#040510",
+        mainAccent: "#5625EC",
+        secondaryAccent: "#DE22FE",
+        blue: "#4FA3FB",
+        orange: "#FD9820",
+        purple: "#8E2DD9",
       },
     },
   },
