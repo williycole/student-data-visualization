@@ -54,6 +54,7 @@ const GraphParams = () => {
     let studentData = json.studentData;
 
     //----------Internet Access GPA-------------
+    // TODO Use something other than a pie chart consider radial
     let intAccArr = [];
     studentData.filter((item) => {
       if (item.internet === "yes") {
@@ -72,7 +73,8 @@ const GraphParams = () => {
     });
     // prettier-ignore
     const noIntAverage = Math.floor( noIntAccArr.reduce((a, b) => a + b, 0) / noIntAccArr.length);
-
+    console.log(noIntAccArr);
+    console.log(intAccArr);
     //----------Num Past Failures-------------
     let failArr = [[], [], [], []];
     studentData.filter((item) => {
@@ -113,7 +115,9 @@ const GraphParams = () => {
     let absArr = [[], [], [], [], []];
     studentData.forEach((item) => {
       if (item.absences) {
-        Number.parseInt(item.absences);
+        // console.log(item.absences);
+        // Number.parseInt(item.absences);
+        // TODO Use something other than a pie chart
         if (item.absences > 0 && item.absences <= 20) {
           absArr[0].push(Number.parseInt(item.G3));
         } else if (item.absences > 20 && item.absences <= 40) {
@@ -127,7 +131,7 @@ const GraphParams = () => {
         }
       }
     });
-    console.log(absArr);
+    // console.log(absArr);
     const absZeroToTwentyAvg = Number.parseInt(absArr[0].reduce((a, b) => a + b, 0) / absArr[0].length); // prettier-ignore
     const absTwentyToFourtyAvg = Number.parseInt(absArr[1].reduce((a, b) => a + b, 0) / absArr[1].length); // prettier-ignore
     const absFourtyToSixtyAvg = Number.parseInt(absArr[2].reduce((a, b) => a + b, 0) / absArr[2].length); // prettier-ignore
@@ -337,6 +341,7 @@ const GraphParams = () => {
     );
   } else if (studentData === "Study Time") {
     GRAPH =
+      // TODO: Check Tick Marks
       // prettier-ignore
       <ScatterChart width={380} height={400} margin={{ top: 80, right: 20, bottom: 0, left: 20,}} >
           <CartesianGrid stroke="#2a204c"/>
