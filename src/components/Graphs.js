@@ -362,7 +362,7 @@ const GraphParams = () => {
           <Tooltip cursor={{ stroke: 'purple', strokeWidth: 2 }} />
           <Legend />
           <Bar name="Good Health Avg FinGrade" dataKey="pv" fill="#DB23FE" />
-          <Bar name="Bad Health Avg FingGrade" dataKey="uv" fill="#FE9823" />
+          <Bar name="Bad Health Avg FinGrade" dataKey="uv" fill="#FE9823" />
         </BarChart>
       </ResponsiveContainer>
     // prettier-ignore
