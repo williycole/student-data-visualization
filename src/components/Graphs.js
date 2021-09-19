@@ -284,10 +284,10 @@ const GraphParams = () => {
 
   // prettier-ignore
   const travelData = [
-    { name: 'TT < 15min', pv: travTimeOneGPAHook, amt: 0,},
-    { name: 'TT 15 - 30min', pv: travTimeTwoGPAHook, amt: 2210,},
-    { name: 'TT 30min - 1hr ', pv: travTimeThreeGPAHook, amt: 2290,},
-    { name: 'TT > 1hr', pv: travTimeFourGPAHook, amt: 2000,},
+    { name: 'TT < 15min', AvgFinGrade: travTimeOneGPAHook, amt: 0,},
+    { name: 'TT 15 - 30min', AvgFinGrade: travTimeTwoGPAHook, amt: 2210,},
+    { name: 'TT 30min - 1hr ', AvgFinGrade: travTimeThreeGPAHook, amt: 2290,},
+    { name: 'TT > 1hr', AvgFinGrade: travTimeFourGPAHook, amt: 2000,},
   ];
 
   // prettier-ignore
@@ -376,7 +376,7 @@ const GraphParams = () => {
           <YAxis fill="#8884d8" stroke="#8884d8" unit=": Avg FinGrade"/>
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="Average Final Grade per Travel Time" stroke="#82ca9d" activeDot={{ r: 8 }}/>
+          <Line type="monotone" dataKey="AvgFinGrade" stroke="#04f1e3" fill="#04f1e3" activeDot={{ r: 8 }} />
         </LineChart>
       </ResponsiveContainer>;
   } else {
