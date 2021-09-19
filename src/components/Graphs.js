@@ -54,7 +54,6 @@ const GraphParams = () => {
     let studentData = json.studentData;
 
     //----------Internet Access GPA-------------
-    // TODO Use something other than a pie chart consider radial
     let intAccArr = [];
     studentData.filter((item) => {
       if (item.internet === "yes") {
@@ -73,8 +72,6 @@ const GraphParams = () => {
     });
     // prettier-ignore
     const noIntAverage = Math.floor( noIntAccArr.reduce((a, b) => a + b, 0) / noIntAccArr.length);
-    console.log(noIntAccArr);
-    console.log(intAccArr);
     //----------Num Past Failures-------------
     let failArr = [[], [], [], []];
     studentData.filter((item) => {
@@ -115,9 +112,6 @@ const GraphParams = () => {
     let absArr = [[], [], [], [], []];
     studentData.forEach((item) => {
       if (item.absences) {
-        // console.log(item.absences);
-        // Number.parseInt(item.absences);
-        // TODO Use something other than a pie chart
         if (item.absences > 0 && item.absences <= 20) {
           absArr[0].push(Number.parseInt(item.G3));
         } else if (item.absences > 20 && item.absences <= 40) {
@@ -131,7 +125,7 @@ const GraphParams = () => {
         }
       }
     });
-    // console.log(absArr);
+
     const absZeroToTwentyAvg = Number.parseInt(absArr[0].reduce((a, b) => a + b, 0) / absArr[0].length); // prettier-ignore
     const absTwentyToFourtyAvg = Number.parseInt(absArr[1].reduce((a, b) => a + b, 0) / absArr[1].length); // prettier-ignore
     const absFourtyToSixtyAvg = Number.parseInt(absArr[2].reduce((a, b) => a + b, 0) / absArr[2].length); // prettier-ignore
@@ -225,11 +219,6 @@ const GraphParams = () => {
     const BadHealthDalcGPA = Number.parseInt(BadHealthGpaArr[4].reduce((a, b) => a + b, 0) / BadHealthGpaArr[4].length); // prettier-ignore
     const BadHealthWalcGPA = Number.parseInt(BadHealthGpaArr[5].reduce((a, b) => a + b, 0) / BadHealthGpaArr[5].length); // prettier-ignore
 
-    // TODO Num pars int do bath then save in hook
-    //----------TODO: G1 G2 G3 Overall Health Graph Comparison-------------
-    //
-    //
-    //
     // prettier-ignore
     {setIAVGHook((intAccAvergage / 20) * 100), setnoIAVGHook((noIntAverage / 20) * 100);
       // Past Failures Hooks
@@ -243,7 +232,6 @@ const GraphParams = () => {
       setAbFourtyToSixtyHook((absFourtyToSixtyAvg / 20) * 100), setAbSixtyToEightyHook((absSixtyToEightyAvg / 20) * 100);
       setAbEightyToNightyThreeHook((absEightyToNintyThree / 20) * 100);
       // Travel Time Hooks
-      // TODO Num pars int do bath then save in hook
       setTravTimeOneGPAHook((travTimeOneGPA / 20) * 100);
       setTravTimeTwoGPAHook((travTimeTwoGPA / 20) * 100);
       setTravTimeThreeGPAHook((travTimeThreeGPA / 20) * 100);
@@ -270,14 +258,14 @@ const GraphParams = () => {
 
   // prettier-ignore
   const internetData = [
-      { name: "Group A", value: iAVGHook },
-      { name: "Group B", value: noIAVGHook },
+      { name: `Internet Accesss: Average Final Grade(${iAVGHook})`, value: iAVGHook },
+      { name: `No Internet Accesss: Average Final Grade(${noIAVGHook})`, value: noIAVGHook },
     ];
 
   // prettier-ignore
   const failData = [
-      { name: " 0 Fails: 55 GPA  ", value: failZeroHook }, { name: " 1 Fail: 40 GPA ", value: failOneHook },
-      { name: " 2 Fails: 30 GPA ", value: failTwoHook }, { name: " <= 3 Fails: 25 GPA ", value: failThreeHook },
+      { name: ` 0 Fails:(${failZeroHook})Average Final Grade `, value: failZeroHook }, { name: ` 1 Fail:(${failOneHook})Average Final Grade `, value: failOneHook },
+      { name: ` 2 Fails:(${failTwoHook})Average Final Grade `, value: failTwoHook }, { name: ` <= 3 Fails:(${failThreeHook})Average Final Grade `, value: failThreeHook },
     ];
 
   // prettier-ignore
@@ -317,85 +305,78 @@ const GraphParams = () => {
     GRAPH =
       // prettier-ignore
       <ResponsiveContainer width="100%" height="100%">
-        <PieChart width={500} height={500}>
+        <PieChart width={400} height={400}>
           <Pie dataKey="value" startAngle={180} endAngle={0} data={internetData}
           cx="50%" cy="50%" outerRadius={140} fill="#8A27D8" label tick={{ fill: "#13132C" }} stroke="#13132C"/>
-          <Legend />
+           <Legend iconType="plainline"/>
         </PieChart>
       </ResponsiveContainer>;
   } else if (studentData === "Past Failures") {
-    GRAPH = (
-      <div>
-        {/* prettier-ignore */}
-        <div style={{ width: 300, height: 300 }}>
-          <ResponsiveContainer>
-            <PieChart>
-              <Pie dataKey="value" data={failData} fill="#8A27D8" label tick={{ fill: "#13132C" }} stroke="#13132C"/>
-              <Legend iconType="plainline"/>
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-        {/* <p>Avg Grade for</p>
-        <p>Amount of Past Failures</p> */}
-      </div>
-    );
+    GRAPH =
+      // prettier-ignore
+      <ResponsiveContainer width="100%" height="100%">
+          <PieChart width={400} height={400}>
+            <Pie dataKey="value" data={failData} fill="#8A27D8" label tick={{ fill: "#13132C" }} stroke="#13132C"/>
+            <Legend iconType="plainline" fill="#8884d8" stroke="#8884d8"/>
+          </PieChart>
+        </ResponsiveContainer>;
   } else if (studentData === "Study Time") {
     GRAPH =
-      // TODO: Check Tick Marks
       // prettier-ignore
-      <ScatterChart width={380} height={400} margin={{ top: 80, right: 20, bottom: 0, left: 20,}} >
-          <CartesianGrid stroke="#2a204c"/>
-            <XAxis type="number" dataKey="x" name="stature" unit="Avg Study hrs" tick={{ fill: "#e0fbfc" }} stroke="#8884d8" />
-            <YAxis type="number" dataKey="y" name="weight" unit="Avg Grade" tick={{ fill: "#e0fbfc" }} stroke="#8884d8" style={{
-              fontSize: '1rem',
-            }}/>
-            <ZAxis type="number" range={[100]} />
-            <Tooltip cursor={{ strokeDasharray: "3 3" }} />
-            <Legend />
-          <Scatter name="Avg per Study Time" data={studyTimeData} fill="#04f1e3" line shape="cross" />
-      </ScatterChart>;
+      <ResponsiveContainer width="100%" height="100%">
+        <ScatterChart width={330} height={400} margin={{ top: 80, right: 20, bottom: 0, left: 20,}} >
+            <CartesianGrid stroke="#2a204c"/>
+              <XAxis type="number" dataKey="x" name="stature" unit=":Avg Study Hrs" dy={10} tick={{ fill: "#e0fbfc" }} fill="#8884d8" stroke="#8884d8"/>
+              <YAxis type="number" dataKey="y" name="weight" unit=":Avg FinGrade" tick={{ fill: "#e0fbfc" }} fill="#8884d8" stroke="#8884d8" style={{
+                fontSize: '1rem',
+              }}/>
+              <ZAxis type="number" range={[100]} />
+              <Tooltip cursor={{ strokeDasharray: "3 3" }} />
+              <Legend />
+            <Scatter name="Average Final Grade per Study Time" data={studyTimeData} fill="#04f1e3" line shape="cross" />
+        </ScatterChart>
+      </ResponsiveContainer>;
   } else if (studentData === "Number of Absences") {
     GRAPH =
       // prettier-ignore
       <ResponsiveContainer width="100%" height="100%">
-      <ScatterChart width={500} height={400} margin={{ top: 20, right: 20, bottom: 20, left: 20, }} >
-        <CartesianGrid />
-        <XAxis type="number" dataKey="x" name="Number of Absences" unit=" Abs" stroke="#8884d8" ticks={[10, 20, 30, 40, 50, 60]}/>
-        <YAxis type="number" dataKey="y" name="Average GPA" unit=" GPA" stroke="#8884d8" style={{
-          fontSize: '1rem',
-        }}/>
-        <ZAxis type="number" range={[100]} />
-        <Tooltip cursor={{ strokeDasharray: '3 3' }} />
-        <Legend />
-        <Scatter name="Avg Grade vs Num of Abscences" data={absecenceData} fill="#04f1e3" line shape="cross" />
-      </ScatterChart>
-    </ResponsiveContainer>;
+        <ScatterChart width={500} height={400} margin={{ top: 20, right: 20, bottom: 20, left: 20, }} >
+          <CartesianGrid />
+          <XAxis type="number" dataKey="x" name="Number of Absences" unit=" Abs" dy={10} stroke="#8884d8" ticks={[10, 20, 30, 40, 50, 60]}/>
+          <YAxis type="number" dataKey="y" name="Average GPA" unit=": AvgFin Grade " dx={-5} stroke="#8884d8" style={{
+            fontSize: '1rem',
+          }}/>
+          <ZAxis type="number" range={[100]} />
+          <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+          <Legend />
+          <Scatter name="Avg Grade vs Num of Abscences" data={absecenceData} fill="#04f1e3" line shape="cross" />
+        </ScatterChart>
+      </ResponsiveContainer>;
   } else if (studentData === "Overall Final Grade - Health") {
     GRAPH =
-      <ResponsiveContainer width="80%" height="70%">
-        <BarChart width={500} height={300} data={G3HealthData} margin={{ top: 5, right: 30, left: 20, bottom: 5, }}>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart width={500} height={400} data={G3HealthData} margin={{ top: 5, right: 30, left: 20, bottom: 5, }}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis label={{ value: 'Average Grade', angle: -90, position: 'insideLeft', textAnchor: 'middle',}}/>
+          <XAxis dataKey="name" fill="#8884d8" stroke="#8884d8" dy={10}/>
+          <YAxis unit=": Avg FinGrade" fill="#8884d8" stroke="#8884d8"/>
           <Tooltip cursor={{ stroke: 'purple', strokeWidth: 2 }} />
-          <Legend verticalAlign="top" height={50} width={280} align={'center'}/>
-          <Bar name="Good Health to G3" dataKey="pv" fill="#33665C" />
-          <Bar name="Bad Health to  G3" dataKey="uv" fill="#A21A3D" />
+          <Legend />
+          <Bar name="Good Health Avg FinGrade" dataKey="pv" fill="#DB23FE" />
+          <Bar name="Bad Health Avg FingGrade" dataKey="uv" fill="#FE9823" />
         </BarChart>
       </ResponsiveContainer>
     // prettier-ignore
   } else if (studentData === "Travel Time") {
     GRAPH =
       // prettier-ignore
-      <ResponsiveContainer width="80%" aspect={3}>
+      <ResponsiveContainer width="80%" height="70%">
         <LineChart width={300} height={300} data={travelData} margin={{top: 5, right: 30, left: 20,bottom: 5,}}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
+          <XAxis dataKey="name" fill="#8884d8" stroke="#8884d8"/>
+          <YAxis fill="#8884d8" stroke="#8884d8" unit=": Avg FinGrade"/>
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }}/>
-          <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+          <Line type="monotone" dataKey="Average Final Grade per Travel Time" stroke="#82ca9d" activeDot={{ r: 8 }}/>
         </LineChart>
       </ResponsiveContainer>;
   } else {

@@ -1,6 +1,6 @@
 /*eslint-disable*/
 import React, { useContext, useState, useEffect, createContext } from "react";
-import GraphSetOne from "./GraphSetOne";
+import Graphs from "./Graphs";
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
         className="App-header"
         className="bg-secondary h-full overflow-hidden "
       >
-        <GraphSetOne />
+        <Graphs />
       </main>
     </div>
   );
