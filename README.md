@@ -1,8 +1,8 @@
 # Fullstack project focused on data vizualization. 
+
 ## This project use React, Tailwind, ReCharts, MongoDB Atlas, and MongoDB Realm for a BaaS and Hosting.
 
-
-## Each graph is meant provide visualization for various fields in relation to the the overall final grade. 
+### Each graph is meant provide visualization for various fields in relation to the the overall final grade. 
 ![Student data visualization demo gif](https://github.com/williycole/student-data-visualization/blob/master/src/misc/demoGif.gif)
 
 This app is a data visualization project that queries a Mongodb Database colleciton of students. There are 395 students in the colleciton each holding 33 kv pairs with the following student data. 
