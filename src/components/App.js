@@ -1,15 +1,15 @@
 /*eslint-disable*/
 import React, { useContext, useState, useEffect, createContext } from "react";
-import GraphSetOne from "./GraphSetOne";
+import Graphs from "./Graphs";
 
 function App() {
   return (
-    <div className="App" className="bg-primary">
+    <div className="App" className="bg-secondary">
       <main
         className="App-header"
-        className="bg-primary h-full overflow-hidden"
+        className="bg-secondary h-full overflow-hidden "
       >
-        <GraphSetOne />
+        <Graphs data-testid="graph" />
       </main>
     </div>
   );
