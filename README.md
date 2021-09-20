@@ -1,41 +1,41 @@
-# Fullstack project focused on data vizualization. This project use React, Tailwind, ReCharts, MongoDB Atlas, and MongoDB Realm for a BaaS and Hosting.
-# Getting Started with Create React App
+# Fullstack project focused on data vizualization. 
+## This project use React, Tailwind, ReCharts, MongoDB Atlas, and MongoDB Realm for a BaaS and Hosting.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This app is a data visualization project that queries a Mongodb Database colleciton of students. There are 395 students in the colleciton each holding 34 kv pairs with the following student data. 
+1. school - student's school (binary: 'GP' - Gabriel Pereira or 'MS' - Mousinho da Silveira)
+2. sex - student's sex (binary: 'F' - female or 'M' - male)
+3. age - student's age (numeric: from 15 to 22)
+4. address - student's home address type (binary: 'U' - urban or 'R' - rural)
+5. famsize - family size (binary: 'LE3' - less or equal to 3 or 'GT3' - greater than 3)
+6. Pstatus - parent's cohabitation status (binary: 'T' - living together or 'A' - apart)
+7. Medu - mother's education (numeric: 0 - none, 1 - primary education (4th grade), 2 5th to 9th grade, 3 secondary education or 4 higher education)
+8. Fedu - father's education (numeric: 0 - none, 1 - primary education (4th grade), 2 5th to 9th grade, 3 secondary education or 4 higher education)
+9. Mjob - mother's job (nominal: 'teacher', 'health' care related, civil 'services' (e.g. administrative or police), 'at_home' or 'other')
+10. Fjob - father's job (nominal: 'teacher', 'health' care related, civil 'services' (e.g. administrative or police), 'at_home' or 'other')
+11. reason - reason to choose this school (nominal: close to 'home', school 'reputation', 'course' preference or 'other')
+12. guardian - student's guardian (nominal: 'mother', 'father' or 'other')
+13. traveltime - home to school travel time (numeric: 1 - <15 min., 2 - 15 to 30 min., 3 - 30 min. to 1 hour, or 4 - >1 hour)
+14. studytime - weekly study time (numeric: 1 - <2 hours, 2 - 2 to 5 hours, 3 - 5 to 10 hours, or 4 - >10 hours)
+15. failures - number of past class failures (numeric: n if 1<=n<3, else 4)
+16. schoolsup - extra educational support (binary: yes or no)
+17. famsup - family educational support (binary: yes or no)
+18. paid - extra paid classes within the course subject (Math or Portuguese) (binary: yes or no)
+19. activities - extra-curricular activities (binary: yes or no)
+20. nursery - attended nursery school (binary: yes or no)
+21. higher - wants to take higher education (binary: yes or no)
+22. internet - Internet access at home (binary: yes or no)
+23. romantic - with a romantic relationship (binary: yes or no)
+24. famrel - quality of family relationships (numeric: from 1 - very bad to 5 - excellent)
+25. freetime - free time after school (numeric: from 1 - very low to 5 - very high)
+26. goout - going out with friends (numeric: from 1 - very low to 5 - very high)
+27. Dalc - workday alcohol consumption (numeric: from 1 - very low to 5 - very high)
+28. Walc - weekend alcohol consumption (numeric: from 1 - very low to 5 - very high)
+29. health - current health status (numeric: from 1 - very bad to 5 - very good)
+30. absences - number of school absences (numeric: from 0 to 93)
+31. G1 - first period grade (numeric: from 0 to 20)
+31. G2 - second period grade (numeric: from 0 to 20)
+32. G3 - final grade (numeric: from 0 to 20, output target)  
 
-## Available Scripts
+## Each graph is meant provide visualization for various fields in relation to the the overall finalgrade. 
 
-In the project directory, you can run:
 
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
