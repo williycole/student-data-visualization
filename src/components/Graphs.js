@@ -6,11 +6,9 @@ import {
   ComposedChart,BarChart, Bar, LineChart, Line,ScatterChart, Scatter, PieChart, Pie, Cell, ZAxis, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from "recharts";
 const GraphParams = () => {
-  // prettier-ignore
-  const STUDENTDATA = [
-    "Select Graph", "Study Time", "Past Failures", "Number of Absences",
-    "Internet Access", "Overall Final Grade - Health","Travel Time",
-  ];
+  /**
+   * Here all the hooks that will be used in the component are set up with useState("")
+   */
   const [studentData, setStudentData] = useState("");
   const [noIAVGHook, setnoIAVGHook] = useState("");
   const [iAVGHook, setIAVGHook] = useState("");
@@ -44,6 +42,10 @@ const GraphParams = () => {
   const [badHealthDalcG3Hook, setBadHealthDalcG3Hook] = useState("");
   const [badHealthWalcG3Hook, setBadHealthWalcG3Hook] = useState("");
   const [badHealthPstatusG3Hook, setBadHealthPstatusG3Hook] = useState("");
+
+  /**
+   * Async await to fetch to fetch all the data and store it in the variable studentData
+   */
   async function fetchStudentData() {
     const res = await fetch(
       "https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/student-data-jwxco/service/studentdata/incoming_webhook/studentdata"
@@ -51,27 +53,33 @@ const GraphParams = () => {
     const json = await res.json();
     let studentData = json.studentData;
 
-    //----------Internet Access GPA-------------
+    //----------Internet Access vs No internet Access: Final Grade-------------
     let intAccArr = [];
+    let noIntAccArr = [];
+    /**
+     * Here the data is check for students with and without internet access and saved differentiating arrays
+     * using .filter
+     */
     studentData.filter((item) => {
       if (item.internet === "yes") {
         intAccArr.push(Number.parseInt(item.G3));
       }
-    });
-    const intAccAvergage = Math.floor(
-      intAccArr.reduce((a, b) => a + b, 0) / intAccArr.length
-    );
-    //----------NO Internet Access GPA-------------
-    let noIntAccArr = [];
-    studentData.filter((item) => {
       if (item.internet === "no") {
         noIntAccArr.push(Number.parseInt(item.G3));
       }
     });
-    // prettier-ignore
-    const noIntAverage = Math.floor( noIntAccArr.reduce((a, b) => a + b, 0) / noIntAccArr.length);
-    //----------Num Past Failures-------------
+    /**
+     * Basic math using reducter to add up all the items in the arrays and get an average
+     */
+    const intAccAvergage = Math.floor(intAccArr.reduce((a, b) => a + b, 0) / intAccArr.length); // prettier-ignore
+    const noIntAverage = Math.floor( noIntAccArr.reduce((a, b) => a + b, 0) / noIntAccArr.length); // prettier-ignore
+
+    //----------Num Past Failures: Final Grade-------------
     let failArr = [[], [], [], []];
+    /**
+     * Here the data is checked for students past failures and saved to differentiating subarrays
+     * using .filter
+     */
     studentData.filter((item) => {
       if (item.failures === "0") {
         failArr[0].push(Number.parseInt(item.G3));
@@ -83,12 +91,15 @@ const GraphParams = () => {
         failArr[3].push(Number.parseInt(item.G3));
       }
     });
+    /**
+     * Basic math using reducter to add up all the items in the arrays and get an average
+     */
     const zeroAvg = Number.parseInt(failArr[0].reduce((a, b) => a + b, 0) / failArr[0].length); // prettier-ignore
     const oneAvg = Number.parseInt(failArr[1].reduce((a, b) => a + b, 0) / failArr[1].length); // prettier-ignore
     const twoAvg = Number.parseInt(failArr[2].reduce((a, b) => a + b, 0) / failArr[2].length); // prettier-ignore
     const threeAvg = Number.parseInt(failArr[3].reduce((a, b) => a + b, 0) / failArr[3].length); // prettier-ignore
 
-    //----------Study Time-------------
+    //----------Study Time: Final Grade-------------
     let studyTimeArr = [[], [], [], []];
     studentData.filter((item) => {
       if (item.studytime === "1") {
@@ -101,12 +112,15 @@ const GraphParams = () => {
         studyTimeArr[3].push(parseInt(item.G3));
       }
     });
+    /**
+     * Basic math using reducter to add up all the items in the arrays and get an average
+     */
     const studyOneAvg = Number.parseInt(studyTimeArr[0].reduce((a, b) => a + b, 0) / studyTimeArr[0].length); // prettier-ignore
     const studyTwoAvg = Number.parseInt(studyTimeArr[1].reduce((a, b) => a + b, 0) / studyTimeArr[1].length); // prettier-ignore
     const studyThreeAvg = Number.parseInt(studyTimeArr[2].reduce((a, b) => a + b, 0) / studyTimeArr[2].length); // prettier-ignore
     const studyFourAvg = Number.parseInt(studyTimeArr[3].reduce((a, b) => a + b, 0) / studyTimeArr[3].length); // prettier-ignore
 
-    //----------Absences-------------
+    //----------Absences: Final Grade-------------
     let absArr = [[], [], [], [], []];
     studentData.forEach((item) => {
       if (item.absences) {
@@ -123,13 +137,15 @@ const GraphParams = () => {
         }
       }
     });
-
+    /**
+     * Basic math using reducter to add up all the items in the arrays and get an average
+     */
     const absZeroToTwentyAvg = Number.parseInt(absArr[0].reduce((a, b) => a + b, 0) / absArr[0].length); // prettier-ignore
     const absTwentyToFourtyAvg = Number.parseInt(absArr[1].reduce((a, b) => a + b, 0) / absArr[1].length); // prettier-ignore
     const absFourtyToSixtyAvg = Number.parseInt(absArr[2].reduce((a, b) => a + b, 0) / absArr[2].length); // prettier-ignore
     const absSixtyToEightyAvg = Number.parseInt(absArr[3].reduce((a, b) => a + b, 0) / absArr[3].length); // prettier-ignore
     const absEightyToNintyThree = Number.parseInt(absArr[4].reduce((a, b) => a + b, 0) / absArr[4].length); // prettier-ignore
-    //----------Travel Time-------------
+    //----------Travel Time: Final Grade-------------
     // 1 - <15 min, 2 - 15 to 30 min, 3 - 30 min. to 1 hour, 4 - >1 hour
     let travelTimeArr = [[], [], [], []];
     studentData.forEach((item) => {
@@ -145,17 +161,18 @@ const GraphParams = () => {
         }
       }
     });
+    /**
+     * Basic math using reducter to add up all the items in the arrays and get an average
+     */
     const travTimeOneGPA = Number.parseInt(travelTimeArr[0].reduce((a, b) => a + b, 0) / travelTimeArr[0].length ); // prettier-ignore
     const travTimeTwoGPA = Number.parseInt(travelTimeArr[1].reduce((a, b) => a + b, 0) / travelTimeArr[1].length ); // prettier-ignore
     const travTimeThreeGPA = Number.parseInt(travelTimeArr[2].reduce((a, b) => a + b, 0) / travelTimeArr[2].length); // prettier-ignore
     const travTimeFourGPA = Number.parseInt(travelTimeArr[3].reduce((a, b) => a + b, 0) / travelTimeArr[3].length); // prettier-ignore
 
-    //----------Overall Health-------------
+    //----------Overall Health: Final Grade-------------
     const GoodHealthGpaArr = [[], [], [], [], []];
     const BadHealthGpaArr = [[], [], [], [], []];
     studentData.forEach((item) => {
-      // console.log(item.Dalc);
-      // Check to see if Dal is excessive and push accordingly
       if (item.Dalc) {
         if (item.Dalc === "5" || item.Dalc === "4") {
           BadHealthGpaArr[0].push(Number.parseInt(item.G3));
@@ -195,12 +212,19 @@ const GraphParams = () => {
     });
     console.log(GoodHealthGpaArr);
     console.log(BadHealthGpaArr);
+    /**
+     * Basic math using reducter to add up all the items in the arrays and get an average
+     */
+    // Good Health hooks
     const GoodHealthDalcGPA = Number.parseInt(GoodHealthGpaArr[0].reduce((a, b) => a + b, 0) / GoodHealthGpaArr[0].length); // prettier-ignore
     const GoodHealthWalcGPA = Number.parseInt(GoodHealthGpaArr[1].reduce((a, b) => a + b, 0) / GoodHealthGpaArr[1].length); // prettier-ignore
     const GoodHealthFamrelGPA = Number.parseInt(GoodHealthGpaArr[2].reduce((a, b) => a + b, 0) / GoodHealthGpaArr[2].length); // prettier-ignore
     const GoodHealthHealthGPA = Number.parseInt(GoodHealthGpaArr[3].reduce((a, b) => a + b, 0) / GoodHealthGpaArr[3].length); // prettier-ignore
     const GoodHealthPstatusGPA = Number.parseInt(GoodHealthGpaArr[4].reduce((a, b) => a + b, 0) / GoodHealthGpaArr[4].length); // prettier-ignore
-
+    /**
+     * Basic math using reducter to add up all the items in the arrays and get an average
+     */
+    // Bad Health hooks
     const BadHealthDalcGPA = Number.parseInt(BadHealthGpaArr[0].reduce((a, b) => a + b, 0) / BadHealthGpaArr[0].length); // prettier-ignore
     const BadHealthWalcGPA = Number.parseInt(BadHealthGpaArr[1].reduce((a, b) => a + b, 0) / BadHealthGpaArr[1].length); // prettier-ignore
     const BadHealthFamrelGPA = Number.parseInt(BadHealthGpaArr[2].reduce((a, b) => a + b, 0) / BadHealthGpaArr[2].length); // prettier-ignore
@@ -208,7 +232,10 @@ const GraphParams = () => {
     const BadHealthPstatusGPA = Number.parseInt(BadHealthGpaArr[4].reduce((a, b) => a + b, 0) / BadHealthGpaArr[4].length); // prettier-ignore
 
     // prettier-ignore
-    {setIAVGHook((intAccAvergage / 20) * 100), setnoIAVGHook((noIntAverage / 20) * 100);
+    {/**
+     * Basic math to get averages from 20 point system to total out of 100
+     */
+      setIAVGHook((intAccAvergage / 20) * 100), setnoIAVGHook((noIntAverage / 20) * 100);
       // Past Failures Hooks
       setFailZeroHook(Math.trunc((zeroAvg / 20) * 100), setFailOneHook((oneAvg / 20) * 100));
       setFailTwoHook((twoAvg / 20) * 100), setFailThreeHook((threeAvg / 20) * 100);
@@ -246,24 +273,24 @@ const GraphParams = () => {
     fetchStudentData();
   }, []);
 
+  /**
+   * const's holding the various fields associated the hooks data with each graph
+   */
   // prettier-ignore
   const internetData = [
       { name: `Internet Accesss: Average Final Grade(${iAVGHook})`, value: iAVGHook },
       { name: `No Internet Accesss: Average Final Grade(${noIAVGHook})`, value: noIAVGHook },
     ];
-
   // prettier-ignore
   const failData = [
       { name: ` 0 Fails:(${failZeroHook})Average Final Grade `, value: failZeroHook }, { name: ` 1 Fail:(${failOneHook})Average Final Grade `, value: failOneHook },
       { name: ` 2 Fails:(${failTwoHook})Average Final Grade `, value: failTwoHook }, { name: ` <= 3 Fails:(${failThreeHook})Average Final Grade `, value: failThreeHook },
     ];
-
   // prettier-ignore
   const studyTimeData = [
       { x: 1, y: styOneToTwoHook }, { x: 2, y: styTwoToFiveHook },
       { x: 3, y: styFiveToTenHook }, { x: 4, y: styMoreThanTenHook },
     ];
-
   const absecenceData = [
     { x: abZeroToTwentyHook, y: 20 },
     { x: abTwentyToFourtyHook, y: 40 },
@@ -271,7 +298,6 @@ const GraphParams = () => {
     { x: abSixtyToEightyHook, y: 80 },
     { x: abEightyToNightyThreeHook, y: 100 },
   ];
-
   // prettier-ignore
   const travelData = [
     { name: 'TT < 15min', AvgFinGrade: travTimeOneGPAHook, amt: 0,},
@@ -284,8 +310,6 @@ const GraphParams = () => {
   const G3HealthData = [
     { name: "Health", uv: badHealthHealthG3Hook, pv: goodHealthHealthG3Hook, amt: 2400,},
     { name: "FamRel", uv: badHealthFamrelG3Hook, pv: goodHealthFamrelG3Hook, amt: 2210,},
-    // { name: "FamEd.", uv: badHealthFamsupG3Hook, pv: goodHealthFamsupG3Hook, amt: 2290,},
-    // { name: "ScolEd.", uv: badHealthSchoolsupG3Hook, pv: goodHealthSchoolsupG3Hook, amt: 2000,},
     { name: "Walc", uv: badHealthDalcG3Hook, pv: goodHealthDalcG3Hook, amt: 2181,},
     { name: "Dalc", uv: badHealthWalcG3Hook, pv: goodHealthWalcG3Hook, amt: 2500,},
     {name: "Pstatus", uv: badHealthPstatusG3Hook, pv: goodHealthPstatusG3Hook, amt: 2500}
@@ -382,6 +406,13 @@ const GraphParams = () => {
       </div>
     );
   }
+
+  // const for aid in conditional rendering and selector
+  // prettier-ignore
+  const STUDENTDATA = [
+    "Select Graph", "Study Time", "Past Failures", "Number of Absences",
+    "Internet Access", "Overall Final Grade - Health","Travel Time",
+  ];
   return (
     <div className="flex flex-col items-center w-full text-center h-screen">
       <div
