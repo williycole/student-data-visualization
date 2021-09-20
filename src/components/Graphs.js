@@ -216,6 +216,7 @@ const GraphParams = () => {
      * Basic math using reducter to add up all the items in the arrays and get an average
      */
     // Good Health hooks
+    // ------------>>Dalc, Walc, famrel, health, Pstatus
     const GoodHealthDalcGPA = Number.parseInt(GoodHealthGpaArr[0].reduce((a, b) => a + b, 0) / GoodHealthGpaArr[0].length); // prettier-ignore
     const GoodHealthWalcGPA = Number.parseInt(GoodHealthGpaArr[1].reduce((a, b) => a + b, 0) / GoodHealthGpaArr[1].length); // prettier-ignore
     const GoodHealthFamrelGPA = Number.parseInt(GoodHealthGpaArr[2].reduce((a, b) => a + b, 0) / GoodHealthGpaArr[2].length); // prettier-ignore
@@ -225,6 +226,7 @@ const GraphParams = () => {
      * Basic math using reducter to add up all the items in the arrays and get an average
      */
     // Bad Health hooks
+    // ------------>>Dalc, Walc, famrel, health, Pstatus
     const BadHealthDalcGPA = Number.parseInt(BadHealthGpaArr[0].reduce((a, b) => a + b, 0) / BadHealthGpaArr[0].length); // prettier-ignore
     const BadHealthWalcGPA = Number.parseInt(BadHealthGpaArr[1].reduce((a, b) => a + b, 0) / BadHealthGpaArr[1].length); // prettier-ignore
     const BadHealthFamrelGPA = Number.parseInt(BadHealthGpaArr[2].reduce((a, b) => a + b, 0) / BadHealthGpaArr[2].length); // prettier-ignore
@@ -252,7 +254,7 @@ const GraphParams = () => {
       setTravTimeThreeGPAHook((travTimeThreeGPA / 20) * 100);
       setTravTimeFourGPAHook((travTimeFourGPA / 20) * 100);
       // Overall Health Hooks
-      // ------------>>Dalc, Walc, famsup, schoolsup, famrel, health
+      // ------------>>Dalc, Walc, famrel, health, Pstatus
       setGoodHealthHealthG3Hook((GoodHealthHealthGPA / 20) * 100);
       setGoodHealthFamrelG3Hook((GoodHealthFamrelGPA/ 20) * 100);
       // setGoodHealthFamsupG3Hook(( GoodHealthFamsupGPA / 20) * 100);
