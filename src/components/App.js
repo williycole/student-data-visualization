@@ -9,7 +9,7 @@ function App() {
         className="App-header"
         className="bg-secondary h-full overflow-hidden "
       >
-        <Graphs />
+        <Graphs data-testid="graph" />
       </main>
     </div>
   );
