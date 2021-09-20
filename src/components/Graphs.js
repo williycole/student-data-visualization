@@ -271,6 +271,10 @@ const GraphParams = () => {
       setBadHealthWalcG3Hook(Math.floor((BadHealthWalcGPA / 20) * 100));
       setBadHealthPstatusG3Hook(Math.floor((BadHealthPstatusGPA / 20) * 100));}
   }
+
+  /**
+   * Here I use use affect to mimic componentDidMount and make sure my data is fetched before rendering it
+   */
   useEffect(() => {
     fetchStudentData();
   }, []);
