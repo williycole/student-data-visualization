@@ -1,6 +1,10 @@
 # Fullstack project focused on data vizualization. 
 ## This project use React, Tailwind, ReCharts, MongoDB Atlas, and MongoDB Realm for a BaaS and Hosting.
 
+
+## Each graph is meant provide visualization for various fields in relation to the the overall final grade. 
+![Student data visualization demo gif](https://github.com/williycole/student-data-visualization/blob/master/src/misc/demoGif.gif)
+
 This app is a data visualization project that queries a Mongodb Database colleciton of students. There are 395 students in the colleciton each holding 33 kv pairs with the following student data. 
 1. school - student's school (binary: 'GP' - Gabriel Pereira or 'MS' - Mousinho da Silveira)
 2. sex - student's sex (binary: 'F' - female or 'M' - male)
@@ -36,6 +40,5 @@ This app is a data visualization project that queries a Mongodb Database colleci
 31. G2 - second period grade (numeric: from 0 to 20)
 32. G3 - final grade (numeric: from 0 to 20, output target)  
 
-## Each graph is meant provide visualization for various fields in relation to the the overall finalgrade. 
 
 
