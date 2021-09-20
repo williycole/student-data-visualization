@@ -389,7 +389,7 @@ const GraphParams = () => {
       <ResponsiveContainer width="80%" height="70%">
         <LineChart width={300} height={300} data={travelData} margin={{top: 5, right: 30, left: 20,bottom: 5,}}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" fill="#8884d8" stroke="#8884d8"/>
+          <XAxis dataKey="name" fill="#8884d8" stroke="#8884d8" dy={10}/>
           <YAxis fill="#8884d8" stroke="#8884d8" unit=": Avg FinGrade"/>
           <Tooltip />
           <Legend />
